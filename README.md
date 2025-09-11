@@ -7,5 +7,9 @@
 - Access with existing user with sudo permission and run these commands in a terminal
 ```
 $ sudo su
+$ curl -L https://raw.githubusercontent.com/panreyes/lm_kiosk/refs/heads/main/lm_kiosk.sh | bash
+```
+Or something easier to type manually (if you trust my hosting and me!)
+```
 $ curl -L https://panreyes.com/lm_kiosk | bash
 ```
