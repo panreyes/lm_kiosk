@@ -40,13 +40,20 @@ Pin-Priority: 1000
 # Activate guest session
 printf "[Seat:*]\nallow-guest=true\n" | tee /etc/lightdm/lightdm.conf
 
-# Remove unneeded software
-apt -y remove --purge hexchat transmission-* thunderbird rhythmbox hypnotix warpinator celluloid pix
+# Remove software (we remove firefox to avoid a "downgrading" error)
+apt -y remove --purge hexchat transmission-* thunderbird rhythmbox hypnotix warpinator celluloid pix firefox
+
+# Upgrade everything
+apt -y update
+apt -y upgrade
 
 # Install Firefox and Chromium
-apt-get -y update && apt-get -y install firefox chromium
+apt -y install firefox chromium
 
-# Disable autostart from these applications
+# Configure Linux Mint autoupdate
+mintupdate-automation upgrade enable
+
+# Disable autostart for these applications
 cp /etc/xdg/autostart/{blueman.desktop,mintreport.desktop,nvidia-prime.desktop,xapp-sn-watcher.desktop,gnome-keyring-ssh.desktop,mintupdate.desktop} /etc/guest-session/skel/.config/autostart
 
 for f in /etc/guest-session/skel/.config/autostart/{blueman.desktop,mintreport.desktop,nvidia-prime.desktop,xapp-sn-watcher.desktop,gnome-keyring-ssh.desktop,mintupdate.desktop}; do
@@ -71,4 +78,4 @@ sed -i 's/^Terminal=false/Terminal=true/' /etc/guest-session/skel/.local/share/a
 # Hide Terminal and show Chromium in pinned apps
 sed -i 's/org.gnome.Terminal.desktop/chromium-browser.desktop/' /usr/share/cinnamon/applets/grouped-window-list\@cinnamon.org/settings-schema.json
 
-echo "Process complete!"
+echo "Process completed!"
